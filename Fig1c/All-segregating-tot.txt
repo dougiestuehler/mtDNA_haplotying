@@ -1,0 +1,117 @@
+Dataset,X,Y
+ACP Global Expanded,7,0
+ACP Global Expanded,9,15
+ACP Global Expanded,11,70
+ACP Global Expanded,13,94
+ACP Global Expanded,15,101
+ACP Global Expanded,17,99
+ACP Global Expanded,19,97
+ACP Global Expanded,21,95
+ACP Global Expanded,23,95
+ACP Global Expanded,25,91
+ACP Global Expanded,27,89
+ACP Global Expanded,29,83
+ACP Global Expanded,31,83
+ACP Global Expanded,33,79
+ACP Global Expanded,35,79
+ACP Global Expanded,37,79
+ACP Global Expanded,39,78
+ACP Global Expanded,41,78
+ACP Global Expanded,43,76
+ACP Global Expanded,45,76
+ACP Global Expanded,47,74
+ACP Global Expanded,49,74
+ACP Global Expanded,51,74
+ACP Global Expanded,53,73
+ACP Global Expanded,55,71
+ACP Global Expanded,57,71
+ACP Global Expanded,59,67
+ACP Global Expanded,61,64
+ACP Global Expanded,63,64
+ACP Global,7,2
+ACP Global,9,28
+ACP Global,11,55
+ACP Global,13,74
+ACP Global,15,72
+ACP Global,17,72
+ACP Global,19,70
+ACP Global,21,70
+ACP Global,23,70
+ACP Global,25,66
+ACP Global,27,66
+ACP Global,29,59
+ACP Global,31,59
+ACP Global,33,57
+ACP Global,35,57
+ACP Global,37,57
+ACP Global,39,57
+ACP Global,41,57
+ACP Global,43,55
+ACP Global,45,55
+ACP Global,47,55
+ACP Global,49,55
+ACP Global,51,55
+ACP Global,53,52
+ACP Global,55,50
+ACP Global,57,50
+ACP Global,59,50
+ACP Global,61,48
+ACP Global,63,48
+Ovis spp.,7,9
+Ovis spp.,9,307
+Ovis spp.,11,547
+Ovis spp.,13,353
+Ovis spp.,15,319
+Ovis spp.,17,295
+Ovis spp.,19,209
+Ovis spp.,21,189
+Ovis spp.,23,175
+Ovis spp.,25,116
+Ovis spp.,27,108
+Ovis spp.,29,93
+Ovis spp.,31,67
+Ovis spp.,33,62
+Ovis spp.,35,60
+Ovis spp.,37,48
+Ovis spp.,39,48
+Ovis spp.,41,48
+Ovis spp.,43,38
+Ovis spp.,45,35
+Ovis spp.,47,34
+Ovis spp.,49,27
+Ovis spp.,51,27
+Ovis spp.,53,22
+Ovis spp.,55,22
+Ovis spp.,57,21
+Ovis spp.,59,20
+Ovis spp.,61,17
+Ovis spp.,63,16
+Frankliniella intonsa,7,3
+Frankliniella intonsa,9,96
+Frankliniella intonsa,11,231
+Frankliniella intonsa,13,283
+Frankliniella intonsa,15,290
+Frankliniella intonsa,17,278
+Frankliniella intonsa,19,242
+Frankliniella intonsa,21,234
+Frankliniella intonsa,23,220
+Frankliniella intonsa,25,206
+Frankliniella intonsa,27,192
+Frankliniella intonsa,29,190
+Frankliniella intonsa,31,155
+Frankliniella intonsa,33,138
+Frankliniella intonsa,35,131
+Frankliniella intonsa,37,110
+Frankliniella intonsa,39,104
+Frankliniella intonsa,41,99
+Frankliniella intonsa,43,91
+Frankliniella intonsa,45,85
+Frankliniella intonsa,47,79
+Frankliniella intonsa,49,75
+Frankliniella intonsa,51,68
+Frankliniella intonsa,53,66
+Frankliniella intonsa,55,64
+Frankliniella intonsa,57,61
+Frankliniella intonsa,59,54
+Frankliniella intonsa,61,50
+Frankliniella intonsa,63,49

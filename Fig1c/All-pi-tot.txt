@@ -1,0 +1,117 @@
+Dataset,X,Y
+ACP Global Expanded,7,0.00000
+ACP Global Expanded,9,0.00032
+ACP Global Expanded,11,0.00029
+ACP Global Expanded,13,0.00030
+ACP Global Expanded,15,0.00031
+ACP Global Expanded,17,0.00031
+ACP Global Expanded,19,0.00031
+ACP Global Expanded,21,0.00032
+ACP Global Expanded,23,0.00032
+ACP Global Expanded,25,0.00032
+ACP Global Expanded,27,0.00032
+ACP Global Expanded,29,0.00030
+ACP Global Expanded,31,0.00030
+ACP Global Expanded,33,0.00029
+ACP Global Expanded,35,0.00029
+ACP Global Expanded,37,0.00030
+ACP Global Expanded,39,0.00030
+ACP Global Expanded,41,0.00031
+ACP Global Expanded,43,0.00030
+ACP Global Expanded,45,0.00030
+ACP Global Expanded,47,0.00031
+ACP Global Expanded,49,0.00031
+ACP Global Expanded,51,0.00032
+ACP Global Expanded,53,0.00031
+ACP Global Expanded,55,0.00031
+ACP Global Expanded,57,0.00032
+ACP Global Expanded,59,0.00030
+ACP Global Expanded,61,0.00030
+ACP Global Expanded,63,0.00031
+ACP Global,7,0.00075
+ACP Global,9,0.00092
+ACP Global,11,0.00097
+ACP Global,13,0.00112
+ACP Global,15,0.00107
+ACP Global,17,0.00107
+ACP Global,19,0.00105
+ACP Global,21,0.00106
+ACP Global,23,0.00107
+ACP Global,25,0.00105
+ACP Global,27,0.00106
+ACP Global,29,0.00093
+ACP Global,31,0.00094
+ACP Global,33,0.00091
+ACP Global,35,0.00092
+ACP Global,37,0.00093
+ACP Global,39,0.00094
+ACP Global,41,0.00096
+ACP Global,43,0.00093
+ACP Global,45,0.00094
+ACP Global,47,0.00095
+ACP Global,49,0.00096
+ACP Global,51,0.00097
+ACP Global,53,0.00095
+ACP Global,55,0.00094
+ACP Global,57,0.00095
+ACP Global,59,0.00096
+ACP Global,61,0.00094
+ACP Global,63,0.00095
+Ovis spp.,7,0.02076
+Ovis spp.,9,0.01391
+Ovis spp.,11,0.01466
+Ovis spp.,13,0.01071
+Ovis spp.,15,0.01088
+Ovis spp.,17,0.01118
+Ovis spp.,19,0.00921
+Ovis spp.,21,0.00923
+Ovis spp.,23,0.00962
+Ovis spp.,25,0.00684
+Ovis spp.,27,0.00714
+Ovis spp.,29,0.00668
+Ovis spp.,31,0.00472
+Ovis spp.,33,0.00466
+Ovis spp.,35,0.00480
+Ovis spp.,37,0.00437
+Ovis spp.,39,0.00470
+Ovis spp.,41,0.00501
+Ovis spp.,43,0.00423
+Ovis spp.,45,0.00425
+Ovis spp.,47,0.00442
+Ovis spp.,49,0.00373
+Ovis spp.,51,0.00396
+Ovis spp.,53,0.00350
+Ovis spp.,55,0.00371
+Ovis spp.,57,0.00381
+Ovis spp.,59,0.00352
+Ovis spp.,61,0.00320
+Ovis spp.,63,0.00291
+Frankliniella intonsa,7,0.00036
+Frankliniella intonsa,9,0.00381
+Frankliniella intonsa,11,0.00376
+Frankliniella intonsa,13,0.00385
+Frankliniella intonsa,15,0.00401
+Frankliniella intonsa,17,0.00412
+Frankliniella intonsa,19,0.00391
+Frankliniella intonsa,21,0.00412
+Frankliniella intonsa,23,0.00405
+Frankliniella intonsa,25,0.00405
+Frankliniella intonsa,27,0.00421
+Frankliniella intonsa,29,0.00444
+Frankliniella intonsa,31,0.00399
+Frankliniella intonsa,33,0.00393
+Frankliniella intonsa,35,0.00413
+Frankliniella intonsa,37,0.00375
+Frankliniella intonsa,39,0.00389
+Frankliniella intonsa,41,0.00390
+Frankliniella intonsa,43,0.00384
+Frankliniella intonsa,45,0.00395
+Frankliniella intonsa,47,0.00414
+Frankliniella intonsa,49,0.00439
+Frankliniella intonsa,51,0.00423
+Frankliniella intonsa,53,0.00430
+Frankliniella intonsa,55,0.00429
+Frankliniella intonsa,57,0.00437
+Frankliniella intonsa,59,0.00392
+Frankliniella intonsa,61,0.00417
+Frankliniella intonsa,63,0.00424
