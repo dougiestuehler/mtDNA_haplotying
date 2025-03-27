@@ -10,4 +10,6 @@ The files in this github repositry consist of scripts to wrangle and plot data p
 **FigS4:** Box plot of CLas titer among Asian Citrus Psyllid mtDNA haplotypes.
 
 ## Citation
-
+Rapid and reproducible haplotyping of complete mitochondrial genomes using split k-mers
+Douglas S. Stuehler Jr., Liliana M. Cano, Michelle Heck
+bioRxiv 2025.03.23.644767; doi: https://doi.org/10.1101/2025.03.23.644767
