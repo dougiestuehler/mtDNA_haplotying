@@ -1,0 +1,162 @@
+---
+title: "BioCircos on Diaphorina citri"
+author: "Douglas Stuehler"
+output:
+  html_document:
+    highlight: textmate
+    code_folding: show
+    theme: readable
+---
+
+```{r setup, echo=FALSE, message=FALSE}
+require(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, comment = "", cache = F)
+options(width = 200)
+```
+
+```{js}
+function addSvgSaveButtonJquery(buttonId, topSvg) {
+  $(buttonId).append("<a id=imgDownload></a>");
+  $(buttonId).click(function() {
+    var html = $($(topSvg).attr("version", 1.1)
+             .attr("xmlns","http://www.w3.org/2000/svg")).clone()
+      .wrap('<p/>').parent().html();
+    var imgsrc = 'data:image/svg+xml;base64,' + btoa(html);
+    $(buttonId + " #imgDownload").attr("download", "BioCircos_plot.svg");
+    $(buttonId + " #imgDownload").attr("href", imgsrc);
+    var a = $(buttonId + " #imgDownload")[0];
+    a.click();
+  });
+}
+```
+
+```{r, fig.width=10, fig.height=10}
+library(BioCircos)
+library(RColorBrewer)
+
+# Load your data from the file
+snippy <- read.table("C://Bioinformatics/Heck_USDA_Pathology/Dcitri_mtDNA_haplotyping/Examining_the_effect_of_kmer_size/ska2/Rplots/Plots_for_Genome_Biology_submission/Combined-k17-m0p8-mapped-MF614822.1-snippy-tab-for-R-input-snp-proportions.txt", 
+                     sep = "\t", stringsAsFactors = F, na.strings = "NA")
+
+# Define column names
+colnames(snippy) <- c("Strain_ID", "Genus", "Chrom", "Pos", "Type", "Ref", "Alt", "Evidence", "FType", "Strand", "NT_pos", "AA_pos", "Effect", "Locus_tag", "Gene", "Product")
+
+snippy[is.na(snippy)] <- ''
+
+sniptest <- snippy
+newprotsamps <- c("KY426014","KY426015","MF181946","MF181947","metasample","MF614804","MF614805","MF614806","MF614807","MF614808","MF614809","MF614810","MF614811","MF614812","MF614813","MF614814","MF614815","MF614816","MF614817","MF614818","MF614819","MF614820","MF614821","MF614822","MF614823","MF614824","MF614825","MF614826","MF614827","MF614828", "OM181946", "MF181947")
+sniptest$protocol <- ifelse(sniptest$Strain_ID %in% newprotsamps, 'new_protocol', 'existing_protocol')
+
+# use a high coverage CLas strain KY426014 as the example to plot
+
+sniplen <- length(sniptest[which(sniptest$Genus == "Combined" & sniptest$Strain_ID == "metasample"),]$Pos)
+
+# create a new column in sniptest to hold the read depth reported in the "Evidence"
+# column by snippy
+Evidence_depth <- c()
+for(i in sniptest$Evidence){
+  Evidence_depth <- c(Evidence_depth, as.numeric(strsplit(strsplit(strsplit(strsplit(i, " ")[[1]], " ")[[1]],":")[[1]], " ")[[2]]))
+  print(as.numeric(strsplit(strsplit(strsplit(strsplit(i, " ")[[1]], " ")[[1]],":")[[1]], " ")[[2]]))
+}
+
+sniptest$SNP_depth <- Evidence_depth
+# create a variable to change shape of SNP value if SNP inside a coding sequence
+# or intergenic region
+#sniptest$shape <- ifelse(sniptest$FType == "CDS", 'circle', 'rect')
+
+# BioCircos plots
+
+# genome track
+Combined <- list('MF614822.1' = 15020)
+
+Combined_mtDNA_CDS_arc_labels_weitz = c('nad2','cox1','cox2','atp8','atp6','cox3','nad3','nad5','nad4','nad4L','nad6','cob','nad1')
+Combined_mtDNA_CDS_arc_labels = c('nad2','cox1','cox2','atp8','atp6','cox3','nad3','nad5','nad4','nad4L','nad6','cob','nad1')
+Combined_mtDNA_CDS_arc_chroms = c('MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1')
+Combined_mtDNA_CDS_arc_start <- c(203,1360,2954,3747,3893,4567,5423,6127,7804,9042,9461,9937,11162)
+Combined_mtDNA_CDS_arc_stop <- c(1174,2889,3617,3899,4567,5349,5773,7747,9048,9317,9943,11079,12073)
+
+Combined_mtDNA_tRNA_arc_labels_weitz = c('tRNA-Ile','tRNA-Gln','tRNA-Met','tRNA-Trp','tRNA-Cys','tRNA-Tyr','tRNA-Leu','tRNA-Lys','tRNA-Asp','tRNA-Gly','tRNA-Ala','tRNA-Arg','tRNA-Asn','tRNA-Ser','tRNA-Glu','tRNA-Phe','tRNA-His','tRNA-Thr','tRNA-Pro','tRNA-Ser','tRNA-Leu','tRNA-Val')
+Combined_mtDNA_tRNA_arc_labels = c('tRNA-Ile','tRNA-Gln','tRNA-Met','tRNA-Trp','tRNA-Cys','tRNA-Tyr','tRNA-Leu','tRNA-Lys','tRNA-Asp','tRNA-Gly','tRNA-Ala','tRNA-Arg','tRNA-Asn','tRNA-Ser','tRNA-Glu','tRNA-Phe','tRNA-His','tRNA-Thr','tRNA-Pro','tRNA-Ser','tRNA-Leu','tRNA-Val')
+Combined_mtDNA_tRNA_arc_chroms = c('MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1')
+Combined_mtDNA_tRNA_arc_start <- c(1,71,138,1173,1234,1295,2893,3618,3686,5362,5772,5832,5893,5959,6015,6065,7745,9331,9393,11078,12074,13272)
+Combined_mtDNA_tRNA_arc_stop <- c(65,137,202,1233,1295,1356,2953,3687,3746,5424,5831,5892,5959,6014,6075,6126,7804,9394,9458,11140,12137,13335)
+
+Combined_mtDNA_rRNA_arc_labels_weitz = c('12S_rRNA', '16S_rRNA')
+Combined_mtDNA_rRNA_arc_labels = c('12S_rRNA', '16S_rRNA')
+Combined_mtDNA_rRNA_arc_chroms = c('MF614822.1', 'MF614822.1')
+Combined_mtDNA_rRNA_arc_start <- c(13336, 12138)
+Combined_mtDNA_rRNA_arc_stop <- c(14093, 13271)
+
+Combined_mtDNA_intergenic_arc_labels_weitz = c('int1', 'int2', 'int3', 'int4', 'int5', 'int6', 'int7', 'int8')
+Combined_mtDNA_intergenic_arc_labels = c('int1', 'int2', 'int3', 'int4', 'int5', 'int6', 'int7', 'int8')
+Combined_mtDNA_intergenic_arc_chroms = c('MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1', 'MF614822.1')
+Combined_mtDNA_intergenic_arc_start <- c(66, 1357, 2890, 5350, 9318, 9459, 11141, 14094)
+Combined_mtDNA_intergenic_arc_stop <- c(70, 1359, 2892, 5361, 9330, 9460, 11161, 15020)
+
+
+CDStrack = BioCircosArcTrack('Combined_CDS', Combined_mtDNA_CDS_arc_chroms, Combined_mtDNA_CDS_arc_start, Combined_mtDNA_CDS_arc_stop,
+                             minRadius = 0.45, maxRadius = 1, opacities = 0.25, labels = Combined_mtDNA_CDS_arc_labels, colors = c("#6DCBBA","#6DCBBA","#6DCBBA","#6DCBBA","#6DCBBA","#6DCBBA","#6DCBBA","#6DCBBA","#6DCBBA","#6DCBBA","#6DCBBA","#35B5A5","#35B5A5"))
+tRNAtrack = BioCircosArcTrack('Combined_tRNA', Combined_mtDNA_tRNA_arc_chroms, Combined_mtDNA_tRNA_arc_start, Combined_mtDNA_tRNA_arc_stop,
+                              minRadius = 0.45, maxRadius = 1, opacities = 0.8, labels = Combined_mtDNA_tRNA_arc_labels, colors = "#FFFF92")
+rRNAtrack = BioCircosArcTrack('Combined_rRNA', Combined_mtDNA_rRNA_arc_chroms, Combined_mtDNA_rRNA_arc_start, Combined_mtDNA_rRNA_arc_stop,
+                              minRadius = 0.45, maxRadius = 1, opacities = 0.8, labels = Combined_mtDNA_rRNA_arc_labels, colors = "#FD6C5C")
+Intergenic_track = BioCircosArcTrack('Combined_int', Combined_mtDNA_intergenic_arc_chroms, Combined_mtDNA_intergenic_arc_start, Combined_mtDNA_intergenic_arc_stop,
+                                     minRadius = 0.45, maxRadius = 1, opacities = 0.8, labels = Combined_mtDNA_intergenic_arc_labels, colors = "#B3ACDC")
+
+#tracklist = CDStrack
+
+# create a link track to indicate gene names of SNPs
+link1 <- rep('MF614822.1', sniplen)
+link2 <- rep('MF614822.1', sniplen)
+linkpos1 <- sniptest[which(sniptest$Genus == "Combined" & sniptest$Strain_ID == "metasample"),]$Pos
+linkpos2 <- sniptest[which(sniptest$Genus == "Combined" & sniptest$Strain_ID == "metasample"),]$Pos + 1
+linklabs <- sniptest[which(sniptest$Genus == "Combined" & sniptest$Strain_ID == "metasample"),]$Gene
+
+trackback = BioCircosBackgroundTrack("myBackgroundTrack", minRadius = 0, maxRadius = 0.46,
+                                     borderSize = 0, fillColors = "#EEFFEE") 
+
+
+trackback2 = BioCircosBackgroundTrack("mySNPBackgroundTrack", minRadius = 0.45, maxRadius = 1,
+                                      borderSize = 0.1, borderColors = "black", fillColors = "snow") 
+
+snpColors <- brewer.pal(length(levels(as.factor(sniptest[which(sniptest$Genus == "Combined" & sniptest$Strain_ID == "metasample"),]$Type))),"Dark2")
+names(snpColors) <- levels(as.factor(sniptest[which(sniptest$Genus == "Combined" & sniptest$Strain_ID == "metasample"),]$Type))
+snpColors2 <- snpColors[sniptest[which(sniptest$Genus == "Combined" & sniptest$Strain_ID == "metasample"),]$Type]
+
+tracklist = BioCircosLinkTrack('snps', link1, link2,
+                               linkpos1, link2, linkpos1, linkpos2,
+                               maxRadius = 0.3, #labels = linklabs,
+                               axisColor = 'white', labelColor = as.vector(snpColors2))
+
+snplist = trackback2 + BioCircosSNPTrack('snptrack', link1, linkpos1, 
+                                         sniptest[which(sniptest$Genus == "Combined" & sniptest$Strain_ID == "metasample"),]$SNP_depth, 
+                                         colors = "gray20", 
+                                         #labels = sniptest[which(sniptest$Genus == "Combined" & sniptest$Strain_ID == "metasample"),]$Product, 
+                                         minradius = 0.46, 
+                                         maxRadius = 0.99, 
+                                         shape = 'circle',
+                                         size = 2)
+
+tracklist <- tracklist + snplist
+tracklist <- tracklist + BioCircosTextTrack('Genus', '\'Diaphorina citri\'',
+                                            x = -0.45, y = -1.32, color = 'black', weight = 'bold')
+
+tracklist <- tracklist + CDStrack + tRNAtrack + rRNAtrack + Intergenic_track
+# Create BioCircos plot
+BioCircos(
+  genome = Combined, genomeFillColor = c("grey95", "grey95"), genomeTicksScale = 1e3, 
+  displayGenomeBorder = TRUE, genomeBorderColor = 'black', zoom = TRUE, genomeBorderSize = 0.2,
+  genomeLabelDx = 3.1, genomeLabelDy = 25, genomeLabelOrientation = -1,
+  genomeTicksLen = 3.5, genomeTicksTextSize = "1.4em", tracklist = tracklist,
+  elementId = "myBioCircosPlot"
+)
+```
+
+```{=html}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  $("#myBioCircosPlot").append("<button id='save_svg'>Save As SVG</button>");
+  addSvgSaveButtonJquery("#save_svg", "#myBioCircosPlot svg");
+});
+</script>
+```

@@ -1,0 +1,67 @@
+########################
+#Figure 3a Scatterplots#
+########################
+awk '/^k/ || /sites:/' Combined-DnaSP-statistics.txt | sed 's/ Selected region: [0-9]\+-[0-9]\+   Number of sites: //g' | sed 's/k//g' > Combined-number-of-sites.txt; awk '/^k/ || /\(segregating\)/' Combined-DnaSP-statistics.txt | sed 's/ Number of polymorphic (segregating) sites, S: //g' | sed 's/k//g' > Combined-segregating.txt; awk '/^k/ || /Pi:/' Combined-DnaSP-statistics.txt | sed 's/ Nucleotide diversity, Pi: //g' | sed 's/k//g' > Combined-pi.txt; awk '/^k/ || /Hd:/' Combined-DnaSP-statistics.txt | sed 's/ Haplotype (gene) diversity, Hd: //g' | sed 's/k//g' > Combined-Hd.txt; awk '/^k/ || /Strobeck/' Combined-DnaSP-statistics.txt | sed 's/ Strobeck'\''s S statistic: //g' | sed 's/k//g' > Combined-StrobecksS.txt; awk '/^k/ || /h:/' Combined-DnaSP-statistics.txt | sed 's/ Number of Haplotypes, h: //g' | sed 's/k//g' > Combined-number-of-haplotypes.txt; awk '/^k/ || /differences, k:/' Combined-DnaSP-statistics.txt | sed 's/ Average number of pairwise nucleotide differences, k: //g' | sed 's/k//g' > Combined-nucl-differences.txt
+
+In notepad++ 
+Find what: ^([^,\r\n]+)\R
+Replace with: Ovis,$1,
+
+cat *-Hd.txt > All-Hd-tot.txt; cat *-number-of-haplotypes.txt > All-number-of-haplotypes-tot.txt; cat *-number-of-sites.txt > All-number-of-sites-tot.txt; cat *-pi.txt > All-pi-tot.txt; cat *-segregating.txt > All-segregating-tot.txt; cat *-StrobecksS.txt > All-StrobecksS-tot.txt; cat *-nucl-differences.txt > All-nucl-differences-tot.txt
+
+####################
+#Figure 5 BioCircos#
+####################
+#Build BioCircos SNP coverage figure using Snippy results from multiple samples and one reference:
+
+#Start by weeding out skf file so that only kmers in 90% of data are left
+ska weed Falk-k15.skf -m .9 -o Falk-k15-weeded-m90.skf
+
+#Get reference sequence to map weeded kmers to; select sequence with the largest avergae distancce
+ska distance Falk-k15-weeded-m90.skf > Falk-k15-m90-distances.txt
+python3 calculate-average-sample-distance.py Falk-k15-m90-distances.txt > Falk-k15-m90-distances-averages.txt
+
+#Map weeded kmers to a reference to get full fasta alignemnt file, then rerun to get VCF file output
+ska map OM181945.1.fa Falk-k15-weeded-m90.skf -o Falk-k15-weeded-m90-mapped-to-OM181945.1.aln.fa --ambig-mask
+ska map OM181945.1.fa Falk-k15-weeded-m90.skf -o Falk-k15-weeded-m90-mapped-to-OM181945.1.map.vcf --ambig-mask -f vcf
+
+#Remove all N's and gaps in SKA2 VCF output as N's and gaps are not used in haplotyping
+awk -F'\t' '{if ($0 ~ /^#/) print $0; else if ($4 != "." && $4 != "N" && $5 !~ /(^|\.|,)N(,|$)/ && $5 !~ /(^|\.|,)\.(,|$)/) {remove=0; for (i=10; i<=NF; i++) if ($i ~ /\./) {remove=1; break} if (!remove) print}}' Falk-k15-weeded-m90-mapped-to-OM181945.1.map.vcf > Falk-k15-weeded-m90-mapped-to-OM181945.1-clean.map.vcf
+
+
+#Convert gubbins (or SKA map) VCF into Snippy tab format, make sure vcf reference seq name matches fasta header
+$HOME/snippy/bin/snippy-vcf_to_tab --ref OM181945.1.fasta --gff OM181945.1.gff3 --vcf Falk-k15-weeded-m90-mapped-to-OM181945.1-clean.map.vcf > Falk-k15-weeded-m90-mapped-to-OM181945.1.map.tab
+
+#Convert snippy tab format to format for R input to make coverage plot
+awk 'BEGIN { FS = OFS = "\t" } { for(i = 1; i <= NF; i++) if(!$i) $i = "NA"; print }' Falk-k15-weeded-m90-mapped-to-OM181945.1.map.tab | awk '{print "metasample\t","Dcitri\t",$0}' | awk 'BEGIN{ FS=OFS="\t" }{ gsub(" ", "", $2) }{gsub(" ", "", $3) }1' | awk '{for (i=1;i<=NF;i++) $i="\""$i"\""}1' FS='\t' OFS='\t' | awk '!/PRODUCT/' > Falk-k15-weeded-m90-mapped-to-OM181945.1-snps-tab-for-R.txt
+
+#Count the proportion of samples containing the SNP called at each position using the VCF output from gubbins
+python3 count_samples_per_snp_in_gvcf.py Falk-k15-weeded-m90-mapped-to-OM181945.1-clean.map.vcf SNP-occurences-counts.txt
+
+#Add proportion of samples found to have SNP to evidence column of Snippy table to make file for R-input
+awk 'BEGIN { OFS = "\t" } FNR==NR {map[$2] = $4; next} $4 in map {$8 = gensub(/[A-Z]:[0-9]+/, "C:" map[$4], 1, $8)} {$5 = "\"SNP\""} 1' SNP-occurences-counts.txt Falk-k15-weeded-m90-mapped-to-OM181945.1-snps-tab-for-R.txt | sed -e 's/\tA:/ A:/g' -e 's/\tC:/ C:/g' -e 's/\tG:/ G:/g' -e 's/\tT:/ T:/g' > Falk-k15-m90-mapped-OM181945.1-snps-tab-for-R-input-snp-proportions.txt
+
+###Commands to run snippy on contigs for SNP locations... did NOT end up working because of issues with snippy mincov and using contigs.###
+#Extract all sequnces from the fasta alignment into their own fastas
+#awk '/^>/ { if (seq) { print header > filename; print seq > filename; seq=""; } header=$0; filename = substr($0, 2) ".fasta"; next } { seq = seq $0 "\n" } END { if (seq) { print header > filename; print seq > filename } }' Falk-k15-weeded-m90-mapped-to-OM181945.1.aln.fa
+
+#Find location of all N's in fasta file
+#seqkit locate --ignore-case --pattern "N" Falk-k15-mapped-to-OM181945.1.aln.fa > N-location-result-k15-Falk.txt
+
+#Combine SNippy tab outputs
+#cat *snippy-table.tab
+
+#Print the counts of SNP locations for all samples, swap out coverage evidence for sample evidence, then print all unique SNP locations to create a meta-sample for R input
+#awk '{count[$4]++} END {for (value in count) print value, count[value]}' All-k15-samples-mapped-to-OM181945.1_snippy-R-input.txt > SNP-occurences-counts.txt; awk 'FNR==NR {map[$1] = $2; next} $4 in map {$8 = gensub(/[A-Z]:[0-9]+/, "C:" map[$4], 1, $8)} 1' SNP-occurences-counts.txt All-k15-samples-mapped-to-OM181945.1_snippy-R-input.txt | awk 'BEGIN { OFS = "\t" } !seen[$4]++ { $1 = "metasample"; print }' > All-k15-samples-mapped-to-OM181945.1_snippy-R-input-snp-counts.txt
+
+
+####################################
+#Counting and assigning haplogroups#
+####################################
+##To get the sequences and samples that are assigned to different haplogroups by PopART
+
+#Remove all positions in fasta alignemnt file with "-" or "N"
+python3 remove-all-nucleotie-in-aln-gap.py
+
+#Count the number of seqs that are identical, output samples found with each sequence and sample count in haplogroup
+awk '/^>/ {if (seq) {count[seq]++; headers[seq] = headers[seq] ", " hdr} hdr = $0; seq = ""} !/^>/ {seq = seq $0} END {if (seq) {count[seq]++; headers[seq] = headers[seq] ", " hdr} for (s in count) {sub(/^, /, "", headers[s]); print s, count[s], headers[s]}}' ska-align-k15-combined-out-p90-nofilter-justNs-no-gap-nucl.fasta > output-haps-counted.txt
