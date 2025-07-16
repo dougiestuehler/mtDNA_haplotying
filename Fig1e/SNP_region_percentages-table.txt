@@ -1,5 +1,0 @@
-Sample_names	rRNA	tRNA	CDS	Intergenic
-ACP_Global	12.86	8.57	72.86	5.71
-ACP_Combined	13.51	5.42	73.87	7.2
-Thrips	6.30	3.99	79.38	10.33
-Ovis	8.63	4.18	81.89	5.3
