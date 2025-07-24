@@ -3,11 +3,10 @@ The files in this github repositry consist of scripts to wrangle and plot data p
 
 ## Contents
 **Data_wrangling:** Pipelines and scripts to process outputs of various programs to plot data in R.
-**Fig1b:** Number of haplotypes produced by different k-mer lengths and sample proportions.
-**Fig1c:** Impact of split k-mer length of six population statistics.
-**Fig1d:** BioCircos ranking SNPs by prevalence in a population, colored by genetic element.
-**Fig1e:** Stacked bar chart of SNP region percentages.
-**FigS4:** Box plot of CLas titer among Asian Citrus Psyllid mtDNA haplotypes.
+**Fig3a:** Impact of split k-mer length of six population statistics.
+**Table 1:** Table of P-values indicating statistical significance for population and alignment statistics of MLST or WGA vs. SKA haplotyping methods.
+**Fig5:** BioCircos plots ranking SNPs by prevalence in a population, colored by genetic element and SNP proportion plots.
+**Fig6:** Box plot of CLas titer among Asian Citrus Psyllid mtDNA haplotypes.
 
 ## Citation
 Rapid and reproducible haplotyping of complete mitochondrial genomes using split k-mers
