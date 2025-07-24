@@ -1,6 +1,8 @@
 ## Introduction
 The files in this github repositry consist of scripts to wrangle and plot data pertaining to the manuscript "Rapid and reproducible haplotyping of complete mitochondrial genomes using split k-mers" Stuehler Jr. et al.
 
+The ska-mtdna.py script described in the manuscript is located in the [ska-mtdna GitHub repository](https://github.com/dougiestuehler/ska-mtdna). 
+
 ## Contents
 **Data_wrangling:** Pipelines and scripts to process outputs of various programs to plot data in R.
 **Fig3a:** Impact of split k-mer length of six population statistics.
